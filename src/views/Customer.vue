@@ -53,7 +53,7 @@
       // ฟังก์ชันดึงข้อมูลจาก API ด้วย GET
       const fetchCustomers = async () => {
         try {
-          const response = await fetch("http://localhost:8080/project_67706862_vue/api_php/show_customer.php", {
+          const response = await fetch("http://localhost/project_67706862_vue/api_php/show_customer.php", {
             method: "GET",
             headers: {
               "Content-Type": "application/json"
