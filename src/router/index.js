@@ -32,10 +32,20 @@ const routes = [
     name: 'product',
     component: () => import('../views/Product.vue')
   },
-    {
+  {
     path: '/Addproduct',
     name: 'Addproduct',
     component: () => import('../views/Add_product.vue')
+  },
+    {
+    path: '/student',
+    name: 'student',
+    component: () => import('../views/Student.vue')
+  },
+  {
+    path: '/add_student',
+    name: 'add_student',
+    component: () => import('../views/Add_student.vue')
   }
 ]
 
