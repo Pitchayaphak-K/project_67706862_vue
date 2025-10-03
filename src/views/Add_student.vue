@@ -2,7 +2,7 @@
 <template>
   <div class="container mt-4 col-md-4 bg-body-secondary ">
     <h2 class="text-center mb-3">ลงทะเบียน</h2>
-    <form @submit.prevent="add_student">
+    <form @submit.prevent="addStudent">
       <div class="mb-2">
         <input v-model="student.first_name" class="form-control" placeholder="ชื่อ" required />
       </div>

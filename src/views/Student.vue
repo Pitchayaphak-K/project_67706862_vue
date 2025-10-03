@@ -14,7 +14,7 @@
             <th>นามสกุล</th>
             <th>อีเมล</th>
             <th>เบอร์โทร</th>
-            <th>ลบ</th>
+            <th>แก้ไข/ลบ</th>
           </tr>
         </thead>
         <tbody>
@@ -23,10 +23,12 @@
             <td>{{ student.last_name }}</td>
             <td>{{ student.email }}</td>
             <td>{{ student.phone }}</td>
-<!--เพิ่มปุ่มลบ -->
-      <td>  
-  <button class="btn btn-danger btn-sm" @click="deleteStudent(student.student_id)">ลบ</button>
-</td>
+         <td>
+            <!-- เพิ่ม ปุ่มแก้ไข -->
+            <button class="btn btn-warning btn-sm" @click="openEditModal(student)"><i class="fa-solid fa-pen-to-square"></i></button> |      
+            <!-- ปุ่มลบ -->
+            <button class="btn btn-danger btn-sm" @click="deleteStudent(student.student_id)"><i class="fa-solid fa-trash"></i></button>
+          </td>
           </tr>
         </tbody>
       </table>
@@ -40,11 +42,48 @@
       <div v-if="error" class="alert alert-danger">
         {{ error }}
       </div>
+
+ <!-- เพิ่ม Modal แก้ไขข้อมูล -->
+    <div class="modal fade" id="editModal" tabindex="-1">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">แก้ไขข้อมูลนักเรียน</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+          </div>
+          <div class="modal-body">
+            <form @submit.prevent="updateStudent">
+              <div class="mb-3">
+                <label class="form-label">ชื่อ</label>
+                <input v-model="editStudent.first_name" type="text" class="form-control" required>
+              </div>
+              <div class="mb-3">
+                <label class="form-label">นามสกุล</label>
+                <input v-model="editStudent.last_name" type="text" class="form-control" required>
+              </div>
+               <div class="mb-3">
+                <label class="form-label">อีเมล</label>
+                <input v-model="editStudent.email" type="email" class="form-control" required>
+              </div>
+              <div class="mb-3">
+                <label class="form-label">เบอร์โทร</label>
+                <input v-model="editStudent.phone" type="text" class="form-control" required>
+              </div>
+               <div class="mb-3 text-center">
+              <button type="submit" class="btn btn-success">บันทึก</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
     </div>
   </template>
   
   <script>
   import { ref, onMounted } from "vue";
+  import { Modal } from "bootstrap";   // เพิ่ม ✅ import Modal class
   
   export default {
     name: "StudentList",
@@ -52,6 +91,8 @@
       const students = ref([]);
       const loading = ref(true);
       const error = ref(null);
+      const editStudent = ref({});   //เพิ่ม
+    let editModal;                  //เพิ่ม
   
       // ฟังก์ชันดึงข้อมูลจาก API ด้วย GET
       const fetchStudents = async () => {
@@ -83,8 +124,39 @@
   
       onMounted(() => {
         fetchStudents();
+        const modalEl = document.getElementById("editModal");     //เพิ่ม
+      editModal = new Modal(modalEl);   // เพิ่ม ✅ ใช้ Modal ที่ import มา
       });
       
+      //เพิ่ม เปิด Popup Modal ***
+    const openEditModal = (student) => {
+      editStudent.value = { ...student };
+      editModal.show();
+    };
+// เพิ่มฟังก์ชั่นการแก้ไขข้อมูล ***
+    const updateStudent = async () => {
+      try {
+        const response = await fetch("http://localhost/project_67706862_vue/api_php/show_student.php", {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(editStudent.value)
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+          const index = students.value.findIndex(c => c.student_id === editStudent.value.student_id);
+          if (index !== -1) students.value[index] = { ...editStudent.value };
+
+          alert("แก้ไขข้อมูลสำเร็จ");
+          editModal.hide();
+        } else {
+          alert(result.message);
+        }
+      } catch (err) {
+        alert("เกิดข้อผิดพลาด: " + err.message);
+      }
+    };
       
 //ฟังก์ชั่นการลบข้อมูล ***
 const deleteStudent = async (id) => {
@@ -117,7 +189,11 @@ const deleteStudent = async (id) => {
         students,
         loading,
         deleteStudent,
-        error
+        error,
+
+        editStudent,  //เพิ่ม
+      openEditModal,  //เพิ่ม
+      updateStudent  //เพิ่ม
       };
     }
   };
