@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 03, 2025 at 06:08 PM
+-- Generation Time: Oct 31, 2025 at 07:52 PM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.1.12
 
@@ -41,9 +41,12 @@ CREATE TABLE `customers` (
 --
 
 INSERT INTO `customers` (`customer_id`, `firstName`, `lastName`, `phone`, `username`, `password`) VALUES
-(1, 'Somchai', 'Wongdee', '0812345678', 'somchaiw', 'password123'),
+(1, 'Somchai', 'Wongdee', '0812345678', 'admin', '1234'),
 (2, 'Anong', 'Srisuk', '0898765432', 'anongs', 'securepass456'),
-(3, 'Pitchayaphak', 'Khonchom', '0992974754', 'Peachy', '123456789');
+(3, 'Pitchayaphak', 'Khonchom', '0992974754', 'Peachy', '123456789'),
+(8, 'มานะ', 'เด็กดี', '038756921', 'mana', '1234'),
+(9, 'มานี', 'ใจดี', '038756901', 'manee', '1234'),
+(10, 'abc', 'def', '0987654321', 'ghi', '$2y$10$wGmNvriUEJ1KDaAB.9gFsuGl4XBnQAuRGCmFmRWkL.gCbUelfqo.m');
 
 -- --------------------------------------------------------
 
@@ -103,6 +106,15 @@ CREATE TABLE `products` (
   `stock` int(11) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `products`
+--
+
+INSERT INTO `products` (`product_id`, `product_name`, `description`, `price`, `image`, `stock`, `created_at`) VALUES
+(2, 'สมุด', 'สมุด', '30.00', '1761929296_1758307015_j2455w.jpg', 99, '2025-10-31 16:48:16'),
+(3, 'หนังสือ', 'หนังสือ', '100.00', '1761930015_images.jfif', 99, '2025-10-31 17:00:15'),
+(4, 'อุปกรณ์การเรียน', 'อุปกรณ์การเรียน', '200.00', '1761933313_school-supplies-education-school-equipment-office-supplies-learning-school-notebook_488220-22051.jpg', 99, '2025-10-31 17:55:13');
 
 -- --------------------------------------------------------
 
@@ -177,7 +189,7 @@ ALTER TABLE `students`
 -- AUTO_INCREMENT for table `customers`
 --
 ALTER TABLE `customers`
-  MODIFY `customer_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `customer_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `orderdetails`
@@ -201,7 +213,7 @@ ALTER TABLE `payments`
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
-  MODIFY `product_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `product_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `students`
