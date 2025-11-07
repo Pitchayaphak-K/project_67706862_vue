@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 31, 2025 at 07:52 PM
--- Server version: 10.4.27-MariaDB
--- PHP Version: 8.1.12
+-- Generation Time: Nov 07, 2025 at 05:21 PM
+-- Server version: 10.4.32-MariaDB
+-- PHP Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -47,6 +47,29 @@ INSERT INTO `customers` (`customer_id`, `firstName`, `lastName`, `phone`, `usern
 (8, 'มานะ', 'เด็กดี', '038756921', 'mana', '1234'),
 (9, 'มานี', 'ใจดี', '038756901', 'manee', '1234'),
 (10, 'abc', 'def', '0987654321', 'ghi', '$2y$10$wGmNvriUEJ1KDaAB.9gFsuGl4XBnQAuRGCmFmRWkL.gCbUelfqo.m');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `employees`
+--
+
+CREATE TABLE `employees` (
+  `employee_id` int(11) NOT NULL,
+  `firstname` varchar(50) NOT NULL,
+  `lastname` varchar(50) NOT NULL,
+  `phone` varchar(15) NOT NULL,
+  `username` varchar(20) NOT NULL,
+  `password` varchar(128) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `employees`
+--
+
+INSERT INTO `employees` (`employee_id`, `firstname`, `lastname`, `phone`, `username`, `password`) VALUES
+(1, 'Hikaru', 'Hoshina', '0998765432', 'star', '12345678'),
+(2, 'Lala', 'Hagoromo', '0991234567', 'milky', '87654321');
 
 -- --------------------------------------------------------
 
@@ -112,9 +135,9 @@ CREATE TABLE `products` (
 --
 
 INSERT INTO `products` (`product_id`, `product_name`, `description`, `price`, `image`, `stock`, `created_at`) VALUES
-(2, 'สมุด', 'สมุด', '30.00', '1761929296_1758307015_j2455w.jpg', 99, '2025-10-31 16:48:16'),
-(3, 'หนังสือ', 'หนังสือ', '100.00', '1761930015_images.jfif', 99, '2025-10-31 17:00:15'),
-(4, 'อุปกรณ์การเรียน', 'อุปกรณ์การเรียน', '200.00', '1761933313_school-supplies-education-school-equipment-office-supplies-learning-school-notebook_488220-22051.jpg', 99, '2025-10-31 17:55:13');
+(2, 'สมุด', 'สมุด', 30.00, '1761929296_1758307015_j2455w.jpg', 99, '2025-10-31 16:48:16'),
+(3, 'หนังสือ', 'หนังสือ', 100.00, '1761930015_images.jfif', 99, '2025-10-31 17:00:15'),
+(4, 'อุปกรณ์การเรียน', 'อุปกรณ์การเรียน', 200.00, '1761933313_school-supplies-education-school-equipment-office-supplies-learning-school-notebook_488220-22051.jpg', 99, '2025-10-31 17:55:13');
 
 -- --------------------------------------------------------
 
@@ -150,6 +173,12 @@ INSERT INTO `students` (`student_id`, `first_name`, `last_name`, `email`, `phone
 --
 ALTER TABLE `customers`
   ADD PRIMARY KEY (`customer_id`);
+
+--
+-- Indexes for table `employees`
+--
+ALTER TABLE `employees`
+  ADD PRIMARY KEY (`employee_id`);
 
 --
 -- Indexes for table `orderdetails`
@@ -190,6 +219,12 @@ ALTER TABLE `students`
 --
 ALTER TABLE `customers`
   MODIFY `customer_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+
+--
+-- AUTO_INCREMENT for table `employees`
+--
+ALTER TABLE `employees`
+  MODIFY `employee_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `orderdetails`

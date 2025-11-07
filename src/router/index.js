@@ -66,11 +66,6 @@ const routes = [
     path: '/add_employee',
     name: 'add_employee',
     component: () => import('../views/Add_employee.vue')
-  },
-   {
-    path: '/employee_edit',
-    name: 'employee_edit',
-    component: () => import('../views/employee_edit.vue')
   }
 ]
 

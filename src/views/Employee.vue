@@ -27,9 +27,9 @@
             <td>{{ employee.username }}</td>
 <!--เพิ่มปุ่มลบ -->
       <td>  
-  <button class="btn btn-danger btn-sm" @click="deleteEmployee(employee.employee_id)">ลบ</button>
+  <button class="btn btn-danger btn-sm" @click="deleteEmployee(employee.employee_id)">ลบ</button>  |
    <!-- เพิ่ม ปุ่มแก้ไข -->
-  <button class="btn btn-warning btn-sm" @click="openEditModal(employee)"><i class="fa-solid fa-pen-to-square"></i></button> |
+  <button class="btn btn-warning btn-sm" @click="openEditModal(employee)">แก้ไข</button>
 </td>
         </tr>
         </tbody>
@@ -44,12 +44,51 @@
       <div v-if="error" class="alert alert-danger">
         {{ error }}
       </div>
+
+      //-- เพิ่ม Modal แก้ไขข้อมูล 
+    <div class="modal fade" id="editModal" tabindex="-1">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">แก้ไขข้อมูลพนักงาน</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+          </div>
+          <div class="modal-body">
+            <form @submit.prevent="updateEmployee">
+              <div class="mb-3">
+                <label class="form-label">ชื่อ</label>
+                <input v-model="editEmployee.firstname" type="text" class="form-control" required>
+              </div>
+              <div class="mb-3">
+                <label class="form-label">นามสกุล</label>
+                <input v-model="editEmployee.lastname" type="text" class="form-control" required>
+              </div>
+              <div class="mb-3">
+                <label class="form-label">เบอร์โทร</label>
+                <input v-model="editEmployee.phone" type="text" class="form-control" required>
+              </div>
+              <div class="mb-3">
+                <label class="form-label">ชื่อผู้ใช้</label>
+                <input v-model="editCustomer.username" type="text" class="form-control" required>
+              </div>
+              <div class="mb-3">
+                <label class="form-label">รหัสผ่าน (เว้นว่างหากไม่เปลี่ยน)</label>
+                <input v-model="editEmployee.password" type="password" class="form-control">
+              </div>
+              <button type="submit" class="btn btn-success">บันทึก</button>
+            </form>
+          </div>
+        </div>
+      </div>
     </div>
+  </div>
+
   </template>
   
   <script>
   import { ref, onMounted } from "vue";
-  
+  import { Modal } from "bootstrap";   // เพิ่ม ✅ import Modal class
+
   export default {
     name: "EmployeeList",
     setup() {
@@ -117,6 +156,44 @@ const deleteEmployee = async (id) => {
     alert("เกิดข้อผิดพลาด: " + err.message);
   }
 };
+
+
+  onMounted(() => {
+      fetchEmployees();
+      const modalEl = document.getElementById("editModal");     //เพิ่ม
+      editModal = new Modal(modalEl);   // เพิ่ม ✅ ใช้ Modal ที่ import มา
+    });
+
+//เพิ่ม เปิด Popup Modal ***
+    const openEditModal = (employee) => {
+      editEmployee.value = { ...employee };
+      editModal.show();
+    };
+// เพิ่มฟังก์ชั่นการแก้ไขข้อมูล ***
+    const updateEmployee = async () => {
+      try {
+        const response = await fetch("http://localhost/project_67706862_vue/employee_crud.php", {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(editEmployee.value)
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+          const index = employees.value.findIndex(c => c.employee_id === editEmployee.value.employee_id);
+          if (index !== -1) employees.value[index] = { ...editEmployee.value };
+
+          alert("แก้ไขข้อมูลสำเร็จ");
+          editModal.hide();
+        } else {
+          alert(result.message);
+        }
+      } catch (err) {
+        alert("เกิดข้อผิดพลาด: " + err.message);
+      }
+    };
+
       return {
         employees,
         loading,
