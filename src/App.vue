@@ -54,6 +54,9 @@
           <li class="nav-item">
           <a class="nav-link" href="/add_customer">Customer</a>
         </li>
+           <li class="nav-item">
+          <a class="nav-link" href="/employee">Employee</a>
+        </li>
   </template>
       </ul>
       <form class="d-flex" role="search">
